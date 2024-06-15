@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Maiden+Orange&display=swap');
+
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Maiden Orange", serif;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.gameContainer {
+  position: relative;
+  width: 90vmin;
+  aspect-ratio: 1;
+  outline: min(2px, 1vmin) solid #fff;
+  background-image: url("images/5b5fd5696d0643f481cdd98a85b33b9b.jpeg");
+  background-position: 50% 0%;
+  background-size: 100%;
+  overflow: hidden;
+  transition: all 1s;
+  counter-reset: score oranges apples;
+
+  &:has(#game:checked) {
+    background-size: 125%;
+    background-position: 50% 100%;
+    animation: treeShake 0.1s 1.5s ease-in-out alternate 10;
+
+    @keyframes treeShake {
+      from { background-position-x: 45%;}
+      to { background-position-x: 50%;}
+    }
+  }
+
+  // &:has(.speed [value="slow"]:checked) {
+  //   --speed: 1.2;
+  // }
+  // &:has(.speed [value="normal"]:checked) {
+  //   --speed: 1;
+  // }
+  // &:has(.speed [value="fast"]:checked) {
+  //   --speed: 0.7;
+  // }
+}
+
+input[name="screen"] {
+  display: none;
+
+  &#start:checked ~ .screen_start,
+  &#info:checked ~ .screen_info,
+  &#game:checked ~ .screen_game {
+    opacity: 1;
+    pointer-events: revert;
+  }
+
+  &#game:checked ~ .screen_game .orange {
+    animation: orangeDrop 2.5s var(--delay, 0s) ease-in var(--playState, running);
+    
+    @keyframes orangeDrop {
+      to{translate: var(--translateX) 55vmin;}
+    }
+  }
+
+  &#game:checked ~ .screen_game .apple {
+    animation: appleDrop 4s var(--delay, 0s) ease-in var(--playState, running);
+    
+    @keyframes appleDrop {
+      to{translate: var(--translateX) 55vmin;}
+    }
+  }
+
+
+  &#game:checked ~ .screen_game .timer {
+    span::before {
+      animation: countdown 100s -70s step-end forwards;
+    }
+    span::after {
+      animation: countdown 10s step-end 3 forwards;
+    }
+  }
+
+  &#game:checked ~ .screen_game .gui {
+    animation: guiDown 0.5s 29.5s forwards;
+
+    @keyframes guiDown {
+      to { translate: 0 100%; }
+    }
+  }
+
+
+
+
+  &#game:checked ~ .screen_end {
+    animation: endScreen 0.5s 29.5s forwards;
+
+    @keyframes endScreen {
+      to {
+        opacity: 1;
+        pointer-events: revert;
+      }
+    }
+  }
+
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6vmin;
+  opacity: 0;
+  pointer-events: none;
+
+  &_info {
+    background-color: #fff6;
+    color: #000;
+    font-size: 5vmin;
+    padding: 1em;
+
+  }
+
+  &_end {
+    text-align: center;
+    background-color: #fffa;
+    color: black;
+    font-size: 4vmin;
+
+    p:first-child, p:last-child {
+      font-size: 6vmin;
+    }
+
+    span {
+      color: var(--color);
+    }
+    .result {
+      font-size: 12vmin;
+    }
+    .good {
+      --color: darkorange;
+      transform: skewY(-5deg);
+      .result::after {
+        content: counter(oranges);
+      }
+    }
+    .bad {
+      --color: green;
+      transform: skewY(-5deg);
+      .result::after {
+        content: counter(apples);
+      }
+    }
+    .total {
+      --color: orangered;
+      .result::after {
+        content: counter(score);
+      }
+    }
+  }
+}
+
+h1{
+  font-size: 12vmin;
+  text-shadow: 1vmin 1vmin 2vmin black;
+  transform: skewY(-5deg);
+}
+
+.labels {
+  display: flex;
+  gap: 3vmin;
+}
+
+.speed {
+  font: inherit;
+  font-size: 5vmin;
+  padding: 0.5em;
+  color: #fff;
+  background-color: #000a;
+  border: min(2px, 1vmin) #fff solid;
+
+  
+}
+.buttonLabel {
+  font: inherit;
+  font-size: 5vmin;
+  padding: 1em;
+  color: #fff;
+  background-color: #0008;
+  user-select: none;
+  border: min(2px, 1vmin) #fff solid;
+  transform: skewY(-5deg);
+  transition: background-color 0.4s;
+
+  &:hover {
+    background-color: orangered;
+  }
+}
+
+.oranges, .apples {
+  position: absolute;
+  left: 50%; top: 50%;
+}
+
+.orange {
+  appearance: none;
+  position: absolute;
+  inset: -6vmin;
+  background-color: #fff;
+  border-radius: 50%;
+  background-image: radial-gradient(circle at top, orange, maroon);
+  box-shadow: 0 0 1vmin #0006;
+  translate: var(--translateX) -52vmin;
+  rotate: var(--angle);
+  scale: var(--scale);
+  transition: all 0.4s;
+
+  @for $o from 1 through 25 {
+    &:nth-child(#{$o}) {
+      --delay: #{$o + 2}s;
+      --translateX: #{random(80) - 40}vmin;
+      --angle: #{random(60) - 30}deg;
+      --scale: #{random(100) / 500+0.8};
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 0 1vmin yellow;
+  }
+
+  &:not(:checked) {
+    cursor: pointer;
+  }
+
+  &:checked {
+    opacity: 0;
+    --playState: paused;
+    transform: translateY(-200%) scale(2) rotate(180deg);
+    counter-increment: score oranges;
+  }
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 10%;
+    width: 40%;
+    aspect-ratio: 1;
+    background-color: limegreen;
+    border-radius: 0 100%;
+    box-shadow: inherit;
+    transform-origin: top left;
+    rotate: 175deg;
+  }
+
+  &::after {
+    rotate: -90deg;
+  }
+}
+
+.apple {
+  appearance: none;
+  position: absolute;
+  inset: -6vmin -7vmin;
+  background-color: #fff;
+  border-radius: 52% 48% 48% 52% / 28% 31% 69% 72%;
+  background-image: linear-gradient( 45deg, green, red);
+  box-shadow: 0 0 1vmin #0006;
+  translate: var(--translateX) -52vmin;
+  rotate: var(--angle);
+  scale: var(--scale);
+  transition: all 0.4s;
+
+  @for $o from 1 through 25 {
+    &:nth-child(#{$o}) {
+      --delay: #{$o * 2.3 + 2}s;
+      --translateX: #{random(80) - 40}vmin;
+      --angle: #{random(60) - 30}deg;
+      --scale: #{random(100) / 500+0.8};
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 0 2vmin red;
+  }
+
+  &:not(:checked) {
+    cursor: pointer;
+  }
+
+  &:checked {
+    opacity: 0;
+    --playState: paused;
+    transform: translateY(-200%) scale(2) rotate(180deg);
+    counter-increment: score -2 apples;
+  }
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 10%;
+    width: 25%;
+    aspect-ratio: 1;
+    background-color: limegreen;
+    border-radius: 0 100%;
+    box-shadow: inherit;
+    transform-origin: top left;
+    rotate: 175deg;
+  }
+
+  &::after {
+    rotate: -90deg;
+  }
+}
+
+
+.gui {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8vmin;
+  padding-inline: 2vmin;
+  text-shadow: 0 0 1vmin black;
+  user-select: none; 
+  pointer-events: none;
+}
+
+.timer span {
+  &::before {
+    content: '2';
+  }
+  &::after {
+    content: '0';
+  }
+
+  @keyframes countdown {
+    0% { content: '9'; }
+    10% { content: '8'; }
+    20% { content: '7'; }
+    30% { content: '6'; }
+    40% { content: '5'; }
+    50% { content: '4'; }
+    60% { content: '3'; }
+    70% { content: '2'; }
+    80% { content: '1'; }
+    90% { content: '0'; }
+  }
+}
+
+.score::after {
+  content: counter(score);
+}

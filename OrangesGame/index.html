@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.scss">
+    <title>Catch the oranges!</title>
+  </head>
+  <body>
+    <form class="gameContainer">
+
+      <input type="radio" name="screen" id="start" checked>
+      <input type="radio" name="screen" id="info">
+      <input type="radio" name="screen" id="game">
+
+
+
+      <div class="screen screen_start">
+        <h1>Catch the oranges!</h1>
+
+        <div class="labels">
+          <label for="game" class="buttonLabel">
+            Start game
+          </label>
+          <label for="info" class="buttonLabel">
+            Info
+          </label>
+          
+        </div>
+      </div>
+
+      <div class="screen screen_info">
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia aut nemo consectetur cupiditate, ratione dolorum facere, laborum et aperiam dolores quos, saepe quo optio cumque nihil. Ex odit eius dicta.
+        </p>
+
+        <!-- <select class="speed">
+          <option value="slow">Slow</option>
+          <option value="normal" selected>Normal</option>
+          <option value="fast">Fast</option>
+        </select> -->
+        
+      <label for="start" class="buttonLabel">
+        back
+      </label>
+      </div>
+
+      <div class="screen screen_game">
+        <div class="oranges">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+          <input class="orange" type="radio">
+        </div>
+
+        <div class="apples">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+          <input class="apple" type="radio">
+        </div>
+
+        <div class="gui">
+          <div class="timer">
+            <span></span>s
+          </div>
+          <div class="score">
+            Score:
+          </div>
+        </div>
+      </div>
+
+
+      <div class="screen screen_end">
+
+        <div class="content">
+          <p>Game Over</p>
+          <p class="good"><span>Good</span> oranges cought: <span class="result"></span> x 1 point</p>
+          <p class="bad"><span>Bad</span> appples cought: <span class="result"></span> x -2 points</p>
+          <p class="total">Total score: <span class="result"></span></p>
+        </div>
+        
+        <button type="reset" class="buttonLabel">
+          Restart game
+        </button>
+
+      </div>
+    </form>
+  </body>
+</html>
